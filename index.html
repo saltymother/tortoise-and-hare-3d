@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🐢 The Tortoise and the Hare 3D — An Animated Anime Story</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Three.js and OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+  <!-- Anime Intro Splash Screen (Resumes Web Audio on user gesture) -->
+  <div id="splash-overlay" class="splash-overlay">
+    <div class="splash-card">
+      <div class="splash-mascot">🐢 vs 🐰</div>
+      <h1 class="splash-title">The Tortoise &amp; The Hare</h1>
+      <p class="splash-subtitle">A 3D Anime Animated Experience featuring vibrant colors, English anime voice acting, and interactive camera direction.</p>
+      <button id="btn-start-experience" class="splash-btn">🌸 Enter the Great Race</button>
+    </div>
+  </div>
+
+  <!-- WebGL 3D Canvas -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- 3D Projected Manga Speech Bubble -->
+  <div class="speech-bubble-container">
+    <div id="manga-bubble" class="manga-speech-bubble">...</div>
+  </div>
+
+  <!-- UI Overlay -->
+  <div class="ui-overlay">
+    
+    <!-- Top Header -->
+    <header class="story-header interactive">
+      <div class="title-badge">
+        <div class="logo-icon">🐢</div>
+        <div class="logo-text">
+          <h1>The Tortoise &amp; The Hare 3D</h1>
+          <span>The Great Forest Race • Anime Story Edition</span>
+        </div>
+      </div>
+
+      <!-- Quick Audio & Settings Controls -->
+      <div class="header-actions">
+        <button id="btn-toggle-voice" class="pill-btn active" title="Toggle English Anime Voice Acting">
+          <span>🎙️</span>
+          <span class="btn-text">Anime Voice: ON</span>
+        </button>
+
+        <button id="btn-toggle-bgm" class="pill-btn active" title="Toggle Anime Background Music">
+          <span>🎵</span>
+          <span class="btn-text">BGM: ON</span>
+        </button>
+
+        <button id="btn-toggle-sfx" class="pill-btn active" title="Toggle Sound Effects">
+          <span>💥</span>
+          <span class="btn-text">SFX: ON</span>
+        </button>
+
+        <button id="btn-voice-settings" class="pill-btn" title="Customize Voices & Characters">
+          <span>⚙️ Voice Studio</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Bottom Controls & Narrator Bar (Docked neatly below the story) -->
+    <footer class="bottom-control-bar interactive">
+      
+      <!-- Progress Scrubber -->
+      <div class="timeline-row">
+        <span id="time-display" class="time-display">0:00 / 2:00</span>
+        <div id="scrubber-track" class="scrubber-track" title="Click to jump to any point in the race">
+          <div id="scrubber-fill" class="scrubber-fill"></div>
+        </div>
+      </div>
+
+      <!-- 8 Chapter Buttons -->
+      <div id="chapter-pills-row" class="chapter-pills-row">
+        <!-- Injected dynamically by app.js -->
+      </div>
+
+      <!-- Main Controls Row -->
+      <div class="controls-main-row">
+        <!-- Play / Skip Buttons -->
+        <div class="playback-buttons">
+          <button id="btn-play" class="btn-play" title="Play / Pause Story (Spacebar)">
+            <span id="play-icon">▶️</span>
+            <span id="play-text">Play Story</span>
+          </button>
+
+          <button id="btn-prev-scene" class="btn-icon-round" title="Previous Scene (Left Arrow)">⏮️</button>
+          <button id="btn-next-scene" class="btn-icon-round" title="Next Scene (Right Arrow)">⏭️</button>
+          <button id="btn-restart" class="btn-icon-round" title="Replay from Scene 1">🔄</button>
+        </div>
+
+        <!-- Camera Angles -->
+        <div class="camera-modes">
+          <button class="cam-btn active" data-cam="director" title="Cinematic Director Camera">🎬 Director Cam</button>
+          <button class="cam-btn" data-cam="tortoise" title="Follow the determined Tortoise">🐢 Tortoise Cam</button>
+          <button class="cam-btn" data-cam="hare" title="Follow the energetic Hare">🐰 Hare Cam</button>
+          <button class="cam-btn" data-cam="birds_eye" title="Wide forest trail overview">🕊️ Bird's Eye</button>
+          <button class="cam-btn" data-cam="orbit" title="Freely drag to rotate and zoom">🎮 Free Orbit</button>
+        </div>
+
+        <!-- Playback Speed -->
+        <div class="speed-buttons">
+          <button class="speed-btn" data-speed="0.5">0.5x</button>
+          <button class="speed-btn active" data-speed="1.0">1x</button>
+          <button class="speed-btn" data-speed="1.5">1.5x</button>
+          <button class="speed-btn" data-speed="2.0">2x</button>
+        </div>
+      </div>
+
+      <!-- Narrator & Subtitles Card (Positioned Below the Story & Controls) -->
+      <div id="subtitles-container" class="subtitles-wrapper">
+        <div class="subtitles-card">
+          <div id="subtitle-avatar" class="speaker-avatar narrator">📖</div>
+          <div class="subtitles-content">
+            <div class="subtitle-header-row">
+              <span id="subtitle-speaker" class="speaker-name">Anime Narrator</span>
+              <span class="narrator-live-tag">● Live Voice Story</span>
+            </div>
+            <div id="subtitle-line" class="speaker-line">Welcome to the Great Forest Race! Click "Play Story" to start the 3D animated journey.</div>
+          </div>
+        </div>
+      </div>
+
+    </footer>
+
+  </div>
+
+  <!-- Moral of the Story Celebration Modal -->
+  <div id="moral-modal" class="moral-modal-backdrop">
+    <div class="moral-card">
+      <div class="moral-trophy">🏆</div>
+      <div class="moral-title">The Grand Conclusion</div>
+      <div class="moral-quote">"Slow and steady wins the race."</div>
+      <div class="moral-explanation">
+        The energetic hare had speed, strength, and confidence, but his pride caused him to stop.
+        The small tortoise, with patience, determination, and focus, kept moving forward one step at a time until he reached the goal.
+        <br><br>
+        <em>"Being fast is useful, but it doesn't help if you stop moving toward your goal."</em>
+      </div>
+      <div class="modal-actions">
+        <button id="btn-replay-story" class="btn-primary">🔄 Watch Again</button>
+        <button id="btn-close-moral" class="btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Voice Actor Customization Studio Modal -->
+  <div id="voice-modal" class="voice-modal-backdrop">
+    <div class="voice-card">
+      <h2>🎙️ Anime English Voice Studio</h2>
+      <p>Configure the English voice synthesis engine and test each character's anime voice acting.</p>
+      
+      <div class="voice-select-group">
+        <label for="voice-select">System English Voice Actor:</label>
+        <select id="voice-select" class="voice-select">
+          <option value="">Default English Voice</option>
+        </select>
+      </div>
+
+      <label style="font-size:0.8rem; font-weight:700; color:var(--anime-gold); text-transform:uppercase;">Test Character Voice Profiles:</label>
+      <div class="character-test-grid">
+        <button class="char-test-btn" data-char="hare">
+          <span>🐰 Energetic Hare</span>
+          <span class="tag">High Pitch • Fast &amp; Cocky</span>
+        </button>
+        <button class="char-test-btn" data-char="tortoise">
+          <span>🐢 Wise Tortoise</span>
+          <span class="tag">Calm Pitch • Patient &amp; Steady</span>
+        </button>
+        <button class="char-test-btn" data-char="fox">
+          <span>🦊 Fox Referee</span>
+          <span class="tag">Charismatic • Theatrical Call</span>
+        </button>
+        <button class="char-test-btn" data-char="narrator">
+          <span>📖 Story Narrator</span>
+          <span class="tag">Melodic • Expressive Story</span>
+        </button>
+        <button class="char-test-btn" data-char="animals">
+          <span>🐿️ Forest Cheer</span>
+          <span class="tag">Excited • Animal Crowd</span>
+        </button>
+      </div>
+
+      <div class="modal-actions">
+        <button id="btn-close-voice-modal" class="btn-primary">Save &amp; Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script Architecture -->
+  <script src="audio_engine.js"></script>
+  <script src="voice_narrator.js"></script>
+  <script src="character_models.js"></script>
+  <script src="scene_environment.js"></script>
+  <script src="story_director.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>

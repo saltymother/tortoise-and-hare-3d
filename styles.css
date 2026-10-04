@@ -1,0 +1,879 @@
+/* ==========================================================================
+   styles.css - Vibrant Anime 3D Storyboard Aesthetic
+   Studio Ghibli & Makoto Shinkai Inspired Color Harmony
+   ========================================================================== */
+
+:root {
+  --font-main: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+  --font-anime: 'Trebuchet MS', 'Lucida Sans Unicode', 'Arial Rounded MT Bold', sans-serif;
+
+  /* Vibrant Anime Palette */
+  --anime-green: #2e7d32;
+  --anime-jade: #00e676;
+  --anime-gold: #ffb300;
+  --anime-sun: #ffd54f;
+  --anime-sky: #0288d1;
+  --anime-cyan: #00e5ff;
+  --anime-sakura: #ff4081;
+  --anime-sunset-orange: #ff6e40;
+  --anime-purple: #7c4dff;
+
+  /* Glassmorphic Surfaces */
+  --bg-glass: rgba(22, 28, 36, 0.78);
+  --bg-glass-light: rgba(255, 255, 255, 0.12);
+  --border-glass: rgba(255, 255, 255, 0.18);
+  --text-primary: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.75);
+  --shadow-glow: 0 8px 32px rgba(0, 0, 0, 0.37);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #81d4fa;
+  font-family: var(--font-main);
+  color: var(--text-primary);
+  user-select: none;
+}
+
+/* 3D WebGL Canvas Layer */
+#webgl-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  display: block;
+}
+
+/* Loading & Intro Splash Overlay */
+.splash-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #1b2838 0%, #0d131a 100%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transition: opacity 0.6s ease, visibility 0.6s;
+  pointer-events: auto;
+}
+
+.splash-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-card {
+  text-align: center;
+  max-width: 500px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.splash-mascot {
+  font-size: 4rem;
+  margin-bottom: 12px;
+  animation: bounceMascot 2s infinite ease-in-out;
+}
+
+@keyframes bounceMascot {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.08); }
+}
+
+.splash-title {
+  font-family: var(--font-anime);
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ffd54f, #00e676, #00e5ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+
+.splash-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.splash-btn {
+  background: linear-gradient(135deg, #00e676, #00b0ff);
+  color: #111;
+  font-family: var(--font-anime);
+  font-size: 1.15rem;
+  font-weight: 800;
+  padding: 14px 34px;
+  border-radius: 28px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(0, 230, 118, 0.45);
+  transition: all 0.25s ease;
+}
+
+.splash-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 30px rgba(0, 230, 118, 0.65);
+}
+
+/* UI Overlay Layer */
+.ui-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.interactive {
+  pointer-events: auto;
+}
+
+/* --- HEADER BAR --- */
+.story-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: linear-gradient(180deg, rgba(12, 17, 24, 0.85) 0%, rgba(12, 17, 24, 0) 100%);
+  backdrop-filter: blur(8px);
+}
+
+.title-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  font-size: 2rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 6px 12px;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 230, 118, 0.3);
+  animation: pulseLogo 3s infinite ease-in-out;
+}
+
+@keyframes pulseLogo {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.logo-text h1 {
+  font-family: var(--font-anime);
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #ffd54f, #00e676, #80d8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logo-text span {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+
+/* Quick Action Controls */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.pill-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+  border-color: var(--anime-jade);
+  box-shadow: 0 6px 16px rgba(0, 230, 118, 0.35);
+}
+
+.pill-btn.active {
+  background: linear-gradient(135deg, rgba(0, 230, 118, 0.3), rgba(2, 136, 209, 0.3));
+  border-color: var(--anime-jade);
+  color: #fff;
+}
+
+.pill-btn.danger {
+  color: #ff8a80;
+}
+
+/* --- MANGA / ANIME 3D SPEECH BALLOONS --- */
+.speech-bubble-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.manga-speech-bubble {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  background: #ffffff;
+  color: #1a1a1a;
+  padding: 12px 18px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 0 3px #000000;
+  font-family: var(--font-anime);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  max-width: 280px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+}
+
+.manga-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 12px 10px 0;
+  border-style: solid;
+  border-color: #000000 transparent;
+  display: block;
+  width: 0;
+}
+
+.manga-speech-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px 8px 0;
+  border-style: solid;
+  border-color: #ffffff transparent;
+  display: block;
+  width: 0;
+  z-index: 1;
+}
+
+.manga-speech-bubble.visible {
+  opacity: 1;
+  transform: translate(-50%, -115%) scale(1);
+}
+
+.manga-speech-bubble.hare {
+  border-color: #e65100;
+}
+
+.manga-speech-bubble.tortoise {
+  border-color: #2e7d32;
+}
+
+.manga-speech-bubble.fox {
+  border-color: #0288d1;
+}
+
+/* --- DOCKED NARRATOR & SUBTITLES BAR (BELOW STORY) --- */
+.subtitles-wrapper {
+  width: 100%;
+  margin: 4px 0 0 0;
+  display: flex;
+  justify-content: center;
+}
+
+.subtitles-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(18, 24, 34, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(16px);
+  padding: 8px 16px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 960px;
+}
+
+.subtitles-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--anime-gold), var(--anime-jade));
+}
+
+.speaker-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  border: 2px solid var(--anime-gold);
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.speaker-avatar.hare {
+  border-color: #ff9800;
+  background: rgba(255, 152, 0, 0.2);
+}
+
+.speaker-avatar.tortoise {
+  border-color: #00e676;
+  background: rgba(0, 230, 118, 0.2);
+}
+
+.speaker-avatar.fox {
+  border-color: #2979ff;
+  background: rgba(41, 121, 255, 0.2);
+}
+
+.speaker-avatar.narrator {
+  border-color: #e040fb;
+  background: rgba(224, 64, 251, 0.2);
+}
+
+.subtitles-content {
+  flex: 1;
+}
+
+.subtitle-header-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.narrator-live-tag {
+  font-size: 0.68rem;
+  color: var(--anime-jade);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: rgba(0, 230, 118, 0.15);
+  padding: 1px 6px;
+  border-radius: 8px;
+}
+
+.speaker-name {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-weight: 700;
+  color: var(--anime-gold);
+}
+
+.speaker-line {
+  font-size: 0.94rem;
+  line-height: 1.38;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* --- BOTTOM TIMELINE & CONTROL BAR --- */
+.bottom-control-bar {
+  background: linear-gradient(0deg, rgba(12, 17, 24, 0.96) 0%, rgba(12, 17, 24, 0.82) 85%, rgba(12, 17, 24, 0) 100%);
+  padding: 8px 20px 14px;
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Chapter Timeline Scrubber */
+.timeline-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.time-display {
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+  min-width: 60px;
+}
+
+.scrubber-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.scrubber-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ffd54f, #00e676, #00e5ff);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.6);
+  transition: width 0.1s linear;
+}
+
+/* Chapter Selection Pills */
+.chapter-pills-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+.chapter-pills-row::-webkit-scrollbar {
+  height: 4px;
+}
+
+.chapter-pills-row::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.chapter-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chapter-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  border-color: var(--anime-gold);
+}
+
+.chapter-btn.active {
+  background: linear-gradient(135deg, rgba(255, 179, 0, 0.35), rgba(0, 230, 118, 0.35));
+  border-color: var(--anime-gold);
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(255, 179, 0, 0.3);
+}
+
+/* Playback & View Controls Bar */
+.controls-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.playback-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-play {
+  background: linear-gradient(135deg, #00e676, #00b0ff);
+  color: #121820;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding: 10px 24px;
+  border-radius: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(0, 230, 118, 0.45);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-play:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 22px rgba(0, 230, 118, 0.6);
+}
+
+.btn-icon-round {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-icon-round:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  border-color: var(--anime-cyan);
+}
+
+/* Camera Selector Pills */
+.camera-modes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 4px 6px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cam-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.cam-btn:hover {
+  color: #fff;
+}
+
+.cam-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Speed Selector */
+.speed-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.speed-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.speed-btn.active {
+  background: var(--anime-jade);
+  border-color: var(--anime-jade);
+  color: #121820;
+}
+
+/* --- MORAL CELEBRATION MODAL --- */
+.moral-modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 14, 20, 0.75);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.moral-modal-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.moral-card {
+  background: linear-gradient(135deg, rgba(28, 38, 50, 0.95), rgba(15, 22, 30, 0.95));
+  border: 2px solid var(--anime-gold);
+  border-radius: 28px;
+  padding: 36px 32px;
+  width: min(520px, 92vw);
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 213, 79, 0.35);
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.moral-modal-backdrop.show .moral-card {
+  transform: translateY(0) scale(1);
+}
+
+.moral-trophy {
+  font-size: 3.5rem;
+  margin-bottom: 8px;
+  animation: floatTrophy 3s infinite ease-in-out;
+}
+
+@keyframes floatTrophy {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.moral-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--anime-gold);
+  margin-bottom: 12px;
+}
+
+.moral-quote {
+  font-family: var(--font-anime);
+  font-size: 1.65rem;
+  font-weight: 800;
+  line-height: 1.35;
+  background: linear-gradient(90deg, #ffd54f, #00e676, #80d8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+}
+
+.moral-explanation {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ffd54f, #ffb300);
+  color: #1a1a1a;
+  border: none;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 12px 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(255, 179, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 22px rgba(255, 179, 0, 0.6);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* --- VOICE SETTINGS MODAL --- */
+.voice-modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 14, 20, 0.75);
+  backdrop-filter: blur(10px);
+  z-index: 105;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.voice-modal-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.voice-card {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  padding: 28px;
+  width: min(560px, 92vw);
+  box-shadow: var(--shadow-glow);
+}
+
+.voice-card h2 {
+  font-size: 1.3rem;
+  font-family: var(--font-anime);
+  color: var(--anime-cyan);
+  margin-bottom: 6px;
+}
+
+.voice-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.voice-select-group {
+  margin-bottom: 16px;
+}
+
+.voice-select-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--anime-gold);
+  margin-bottom: 6px;
+}
+
+.voice-select {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-glass);
+  color: #fff;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.character-test-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 18px 0 24px;
+}
+
+.char-test-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.char-test-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--anime-jade);
+  transform: translateY(-2px);
+}
+
+.char-test-btn span.tag {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 768px) {
+  .story-header {
+    padding: 12px 16px;
+  }
+  .logo-text h1 {
+    font-size: 1.15rem;
+  }
+  .subtitles-card {
+    padding: 10px 14px;
+    gap: 12px;
+  }
+  .speaker-avatar {
+    width: 42px;
+    height: 42px;
+    font-size: 1.4rem;
+  }
+  .speaker-line {
+    font-size: 0.92rem;
+  }
+  .camera-modes {
+    display: none; /* Auto-director on mobile */
+  }
+  .bottom-control-bar {
+    padding: 10px 16px 16px;
+  }
+}
