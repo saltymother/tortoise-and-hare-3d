@@ -851,29 +851,128 @@ body, html {
 }
 
 /* --- RESPONSIVE ADJUSTMENTS --- */
+#webgl-canvas {
+  touch-action: none;
+}
+
 @media (max-width: 768px) {
   .story-header {
-    padding: 12px 16px;
+    padding: 8px 12px;
+  }
+  .title-badge {
+    gap: 8px;
+  }
+  .logo-icon {
+    font-size: 1.3rem;
+    padding: 4px 8px;
+    border-radius: 10px;
   }
   .logo-text h1 {
-    font-size: 1.15rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.2px;
   }
+  .logo-text span {
+    display: none;
+  }
+  .header-actions {
+    gap: 5px;
+  }
+  .pill-btn {
+    padding: 6px 8px;
+    font-size: 0.9rem;
+    border-radius: 12px;
+  }
+  .pill-btn .btn-text {
+    display: none; /* Icon-only buttons on mobile for clean fit */
+  }
+
+  .bottom-control-bar {
+    padding: 8px 10px 10px;
+    gap: 5px;
+  }
+  .timeline-row {
+    margin-bottom: 2px;
+  }
+  .time-display {
+    font-size: 0.72rem;
+    min-width: 65px;
+  }
+  .chapter-pills-row {
+    gap: 5px;
+    padding-bottom: 3px;
+  }
+  .chapter-btn {
+    padding: 4px 8px;
+    font-size: 0.72rem;
+    border-radius: 8px;
+  }
+
+  .controls-main-row {
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: space-between;
+  }
+  .playback-buttons {
+    gap: 6px;
+  }
+  .btn-play {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 12px;
+  }
+  .btn-icon-round {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+
+  /* Compact scrollable camera chips on mobile so users keep camera control */
+  .camera-modes {
+    display: flex;
+    overflow-x: auto;
+    max-width: 100%;
+    gap: 4px;
+    padding: 2px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .camera-modes::-webkit-scrollbar {
+    display: none;
+  }
+  .cam-btn {
+    padding: 4px 8px;
+    font-size: 0.72rem;
+    border-radius: 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .speed-buttons {
+    gap: 3px;
+  }
+  .speed-btn {
+    padding: 4px 6px;
+    font-size: 0.7rem;
+    border-radius: 8px;
+  }
+
   .subtitles-card {
-    padding: 10px 14px;
-    gap: 12px;
+    padding: 6px 10px;
+    gap: 8px;
+    border-radius: 10px;
   }
   .speaker-avatar {
-    width: 42px;
-    height: 42px;
-    font-size: 1.4rem;
+    width: 34px;
+    height: 34px;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+  }
+  .speaker-name {
+    font-size: 0.72rem;
   }
   .speaker-line {
-    font-size: 0.92rem;
-  }
-  .camera-modes {
-    display: none; /* Auto-director on mobile */
-  }
-  .bottom-control-bar {
-    padding: 10px 16px 16px;
+    font-size: 0.82rem;
+    line-height: 1.3;
   }
 }
+
