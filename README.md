@@ -1,5 +1,10 @@
 # 🐢 The Tortoise and the Hare 3D — An Animated Anime Story Scene
 
+[![GitHub Pages](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen?style=for-the-badge&logo=github)](https://saltymother.github.io/tortoise-and-hare-3d/)
+
+> 🌐 **Live Website**: [https://saltymother.github.io/tortoise-and-hare-3d/](https://saltymother.github.io/tortoise-and-hare-3d/)
+> 📂 **GitHub Repository**: [https://github.com/saltymother/tortoise-and-hare-3d](https://github.com/saltymother/tortoise-and-hare-3d)
+
 A cinematic, interactive 3D web experience bringing the classic fable of **The Tortoise and the Hare: The Great Race Through the Forest** to life with vibrant anime aesthetics, English anime voice acting, procedural Ghibli-inspired music, and dynamic camera direction.
 
 ---
